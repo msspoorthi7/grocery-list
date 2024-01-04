@@ -1,0 +1,206 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    
+    <style>
+        .parent{
+            display:grid;
+            grid-template-rows:100px 160px 800px;
+            grid-template-columns:200px 880px 450px;
+        }
+        .Child1,.Child2,.Child3{
+            background:linear-gradient(to top, rgb(45, 224, 240),rgb(32, 65, 213));
+        }
+        .Child4,.Child5,.Child6{
+            background:linear-gradient( rgb(241, 241, 151),rgb(238, 131, 105));
+        }
+        
+    
+        .Child7,.Child8,.Child9{
+            background:linear-gradient( rgb(241, 241, 151), rgb(239, 95, 59));
+        }
+        .Child8>h2{
+            color:rgb(236, 2, 41);
+            font-size:30
+        }
+        a{
+            text-decoration:none;
+        }
+        .Child2{
+        display:flex;
+        flex-wrap:wrap;
+        padding:10px;
+        gap:10px;
+        }
+
+        #abc{
+       background-color: #070808; 
+        color: #fff; 
+        padding: 10px 20px; 
+        border:2px solid white;
+        border-radius: 10px; 
+        cursor: pointer; 
+        font-size: 16px;
+        
+        }
+        #name,#quantity,#status,#image{
+        background-color:bisque;
+        color:rgb(53, 5, 245);
+        padding: 10px 20px; 
+        border: 2px solid black;
+        border-radius: 10px; 
+        cursor: pointer; 
+        font-size: 16px;
+        
+
+        }
+    
+     input[type="radio"] {
+      margin-right: 10px; /* Add spacing between radio buttons */
+      transform:scale(1.5);
+      
+    }
+    #rst{
+        border:3px solid black;
+    }
+   
+    
+        
+        
+    </style>
+    
+</head>
+<body>
+ <div class="parent">
+    <div class="Child1"></div>
+    <div class="Child2">
+        
+        <img src="static/grocery.png" height="90%" width="10%"/>
+        <h1 >Grocery Store</h1>
+    </div>
+    <div class="Child3">
+        <br>
+        <br>
+        <h1  style="display:inline;margin-left:5%;"><a href="Home.html"> List</a></h1>
+        <h1  style="display:inline;margin-left:5%;"><a href="New_List.html">Add List</a></h1>
+        <h1  style="display:inline;margin-left:5%;"><a href="Destination.html">Items</a></h1>
+    </div>
+    <div class="Child4">
+    
+    </div>
+    <div class="Child5">
+    <h1  style="color:rgb(180, 53, 3)" id="value-output"></h1>
+    <h2 style="color:rgb(0, 106, 255);font-family:Georgia, 'Times New Roman', Times, serif;" id="value-output1">
+    </div>
+    <div class="Child6">
+    
+    </div>
+    <div class="Child7"></div>
+    <div class="Child8">
+        <h2 >Add new item to list </h2>
+       <form id="userDataForm">
+        <label for="name"><h3 style="color:rgb(241, 4, 111);font-size:22;font-family:'Lucida Fax';">Item:</h3></label>
+       <input type="text" id="name" name="name" placeholder="Enter item" required/>
+       <label for="quantity"><h3 style="color:rgb(241, 4, 111);font-size:22;font-family:'Lucida Fax';">Enter Quantity:</h3></label>
+       <select name="quantity" id="quantity" >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4" >4</option>
+        <option value="5" >5</option>
+        <option value="6" >6</option>
+        <option value="7" >7</option>
+        <option value="8" >8</option>
+        <option value="9" >9</option>
+        <option value="10" >10</option>
+       </select>
+       <br>
+       <label for="image"><h3 style="color:rgb(241, 4, 111);font-size:22;font-family:'Lucida Fax';">Image URL:</h3></label>
+        <input type="text" id="image" required >
+        
+        <br>
+        <label for="status"><h3 style="color:rgb(241, 4, 111);font-size:22;font-family:'Lucida Fax';">Status:</h3></label>
+     <input type="radio" id="status" name="Status" value="Done" > Done
+     <input type="radio" id="status" name="Status" value="Undone" /> Undone
+
+        <br>
+        <br>
+        <br>
+        <button id="abc" type="submit">Submit</button>
+       </form>
+       
+       
+    
+    
+       </div>
+    
+    
+    <div class="Child9">
+        <br>
+        
+        <img  id="rst" src="static/page7.jpg" width="90%" height="50%"/>
+        <img  id="rst" src="static/page3.jpg" width="90%" height="45%"/>
+        
+    
+       
+    </div>
+    
+ </div>
+ <script>
+
+window.onload=function(){
+       var value=localStorage.getItem('myValue1'); /*Keys used in List page */
+       var value1=localStorage.getItem('myValue2');
+
+
+       var output=document.getElementById('value-output'); /Child5/
+       var output1=document.getElementById('value-output1'); /Child5/
+
+
+    
+                output.innerText = value;
+                output1.innerText = value1;
+            }
+        
+
+
+document.getElementById('userDataForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Get user input
+    const name = document.getElementById('name').value;
+    const quantity = document.getElementById('quantity').value;
+    const status = document.querySelector('input[name="Status"]:checked').value;
+    
+
+    const image = document.getElementById('image').value;
+
+    
+
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
+    
+
+    // Create or retrieve the array from localStorage
+    let userDataArray = JSON.parse(localStorage.getItem('ItemData')) || [];
+
+    // Add new user data to the array
+    userDataArray.push({ name, quantity,image,status,currentDate,currentTime });
+
+    // Store the updated array in localStorage
+    localStorage.setItem('ItemData', JSON.stringify(userDataArray));
+
+    // Redirect to the display page
+    window.location.href = 'Destination.html';
+});
+    
+
+        
+
+    
+        
+    </script>
+</body>
+</html>

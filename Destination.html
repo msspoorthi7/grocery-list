@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination</title>
+    <style>
+        .parent{
+            display:grid;
+            grid-template-rows:100px 2000px;
+            grid-template-columns:200px 670px 700px;
+            
+        }
+        .Child1,.Child2,.Child3{
+            background:linear-gradient(to top, rgb(45, 224, 240),rgb(32, 65, 213));
+        }
+        .Child4,.Child5,.Child6{
+            background:linear-gradient( rgb(241, 241, 151),rgb(239, 95, 59));
+        }
+        a{
+            text-decoration: none;
+        }
+        .Child2{
+        display:flex;
+        flex-wrap:wrap;
+        padding:10px;
+        gap:10px;
+        
+       }
+       
+       
+    </style>
+</head>
+    <body>
+        <div class="parent">
+            <div class="Child1"></div>
+            <div class="Child2">
+                
+                <img src="static/grocery.png" height="90%" width="15%"/>
+                <h1 >Grocery Store</h1>
+               
+    </div>
+            
+            <div class="Child3">
+                <br>
+                <br>
+            <h1  style="display:inline;margin-left:10%;"><a href="Home.html"> List</a></h1>
+            <h1  style="display:inline;margin-left:10%;"><a  style="color:rgb(50, 50, 137)" href="javascript:void(0);" onclick="checkListAndNavigate()" href="New_Item.html">Add Item</a></h1>
+            <h1  style="display:inline;margin-left:10%;"><a href="New_List.html">Add List</a></h1>
+            </div>
+        
+        <div class="Child4">
+        
+        </div>
+
+        <div class="Child5">
+            <h4 id="userData"></h4>
+            <!-- User data will be displayed here -->
+        </div>
+        
+        <div class="Child6">
+        
+        </div>
+        
+    </div>
+        
+        
+        
+        <script>
+            // Get user data array from localStorage
+    const userDataArray = JSON.parse(localStorage.getItem('ItemData')); /*key used in item page */
+    
+    // Display the data on the page
+    const userDataDiv = document.getElementById('userData'); /*Child5 */
+    
+    
+    
+    if (userDataArray && userDataArray.length > 0) {
+        userDataArray.forEach((userData, index) => {
+             
+            const userDiv = document.createElement('div');
+            userDiv.innerHTML = `<p><strong>Item:</strong> ${userData.name}</p>
+                                 <p><strong>Quantity:</strong> ${userData.quantity}</p>
+                                 
+                                 
+                    
+                                 <p><strong>Date:</strong> ${userData.currentDate}</p>
+                                 <p><strong>Time:</strong> ${userData.currentTime}</p>
+                                 <p><strong>Item Image:</strong><br>
+                                     <img src="${userData.image}" alt="User Image" width=100px height=100px>
+                                     <p><strong>Status:</strong> ${userData.status}</p>
+                                 <button style="border-radius:10px;padding: 10px 20px;font-size:15px;cursor:pointer" class="delete-button" data-index="${index}">Delete</button>
+                                 <hr>`;
+            userDataDiv.appendChild(userDiv);
+                                 
+        });
+    
+        // Add event listeners to delete buttons
+        const deleteButtons = document.querySelectorAll('.delete-button');
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', function () {
+                const indexToDelete = parseInt(this.getAttribute('data-index'));
+                
+                // Remove the data from the array
+                userDataArray.splice(indexToDelete, 1);
+    
+                // Update the data in localStorage
+                localStorage.setItem('ItemData', JSON.stringify(userDataArray));
+    
+                // Refresh the page to reflect changes
+                location.reload();
+            });
+        });
+    } else {
+        // Handle the case when no data is found
+        userDataDiv.textContent = 'No Items found';
+    }
+    
+    function checkListAndNavigate() {
+        // Get user data array from localStorage
+        const userDataArray = JSON.parse(localStorage.getItem('ItemData'));
+
+        // Check if a list exists
+        if (userDataArray && userDataArray.length > 0) {
+            // If a list exists, allow navigation to New_Item.html
+            window.location.href = 'New_Item.html';
+        } else {
+            // If no list exists, show an alert message
+            alert("Please add a list before adding items.");
+        }
+    }
+        </script>
+    </body>
+    </html>
+s
